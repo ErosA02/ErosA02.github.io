@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Co2FeSn | Dashboard DFT</title>
+    <link rel="stylesheet" href="assets/styles.css" />
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero-panel">
+        <div class="brand-strip">
+          <img src="assets/escudo_uanl_transparente.png" alt="Escudo UANL" />
+          <div>
+            <p class="eyebrow">Resultados DFT · Quantum ESPRESSO</p>
+            <h1>Co<sub>2</sub>FeSn: bandas, DOS y estabilidad relativa</h1>
+            <p class="author">Eros Fabián Acosta Vázquez · UANL · FCFM</p>
+          </div>
+          <img src="assets/Logo_FCFM.png" alt="Logo FCFM" />
+        </div>
+
+        <div class="control-row">
+          <div class="phase-tabs" role="tablist" aria-label="Fase estructural">
+            <button class="phase-tab active" data-phase="full" type="button">Full-Heusler</button>
+            <button class="phase-tab" data-phase="half" type="button">Half-Heusler</button>
+            <button class="phase-tab" data-phase="inversa" type="button">Inversa</button>
+          </div>
+
+          <div class="toggles" aria-label="Controles de visualización">
+            <label><input type="checkbox" id="toggle-up" checked /> SP up</label>
+            <label><input type="checkbox" id="toggle-down" checked /> SP down</label>
+            <label><input type="checkbox" id="toggle-soc" checked /> SOC</label>
+            <label><input type="checkbox" id="toggle-focus" /> foco en EF</label>
+          </div>
+        </div>
+      </section>
+
+      <section class="metric-grid" aria-label="Métricas principales">
+        <article class="metric-card">
+          <span class="metric-label">Fase seleccionada</span>
+          <strong id="metric-phase">Full-Heusler</strong>
+          <small id="metric-formula">Co₂FeSn</small>
+        </article>
+        <article class="metric-card">
+          <span class="metric-label">Eform mínima</span>
+          <strong id="metric-eform">+0.006 eV/át</strong>
+          <small>referencias elementales comparables</small>
+        </article>
+        <article class="metric-card">
+          <span class="metric-label">DOS(EF) SP</span>
+          <strong id="metric-dos-sp">4.12</strong>
+          <small>estados/eV</small>
+        </article>
+        <article class="metric-card">
+          <span class="metric-label">Magnetización SP</span>
+          <strong id="metric-mag">5.58 μB</strong>
+          <small>por celda</small>
+        </article>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="panel chart-panel wide">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">E - EF</p>
+              <h2>Bandas electrónicas interactivas</h2>
+            </div>
+            <span class="pill" id="bands-pill">SP + SOC</span>
+          </div>
+          <div id="bands-chart" class="plot"></div>
+        </article>
+
+        <article class="panel chart-panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Estados disponibles</p>
+              <h2>DOS cerca de EF</h2>
+            </div>
+            <button class="icon-button" id="mirror-dos" type="button" aria-pressed="true" title="Alternar espejo del canal down">
+              <i data-lucide="flip-horizontal-2"></i>
+            </button>
+          </div>
+          <div id="dos-chart" class="plot"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Lectura física</p>
+              <h2>Qué mirar</h2>
+            </div>
+          </div>
+          <p id="phase-reading" class="reading-text"></p>
+          <div class="callout">
+            <strong>Nota:</strong> una DOS alta en E<sub>F</sub> significa más estados disponibles alrededor del nivel de Fermi, no más electrones totales.
+          </div>
+        </article>
+
+        <article class="panel chart-panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Comparación</p>
+              <h2>Energía de formación</h2>
+            </div>
+          </div>
+          <div id="formation-chart" class="plot small-plot"></div>
+        </article>
+
+        <article class="panel chart-panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Celda primitiva</p>
+              <h2>Estructura 3D</h2>
+            </div>
+          </div>
+          <div id="structure-chart" class="plot small-plot"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Reproducibilidad</p>
+              <h2>Datos y parámetros</h2>
+            </div>
+          </div>
+          <dl class="param-list" id="param-list"></dl>
+        </article>
+      </section>
+    </main>
+
+    <script src="assets/app.js"></script>
+  </body>
+</html>
